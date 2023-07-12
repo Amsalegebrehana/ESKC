@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['eskcadmin.onrender.com',  '127.0.0.1']
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://www.eskc.org.et/
+    'http://www.eskc.org.et/'
 ]
 
 # Application definition
