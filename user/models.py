@@ -13,6 +13,21 @@ class Admin(AbstractServer):
 
 
 class Applicant(models.Model):
+    EDUCATION_LEVELS = (
+        ('1', 'Beginner'),
+        ('2', 'Beginner'),
+        ('3', 'Beginner'),
+        ('4','Beginner'),
+        ('5', 'Beginner'),
+        ('6', 'Beginner'),
+        ('7', 'Beginner'),
+        ('8', 'Beginner'),
+        ('9', 'Intermediate'),
+        ('10', 'Intermediate'),
+        ('11', 'Advanced'),
+        ('12', 'Advanced'),
+    )
+
     firstName = models.CharField(max_length=255, blank=True)
     lastName = models.CharField(max_length=255, blank=True)
     email = models.EmailField()
@@ -31,7 +46,7 @@ class Applicant(models.Model):
     schoolRegion = models.CharField(max_length=255, blank=True)
     schoolZone = models.CharField(max_length=255, blank=True)
     schoolWereda = models.CharField(max_length=255, blank=True)
-    educationalLevel = models.CharField(max_length=255, blank=True)
+    educationalLevel = models.CharField(max_length=255, blank=True, choices = EDUCATION_LEVELS, default='1')
     documentLink = models.URLField(blank=True)
     skills = models.ManyToManyField('Skill', blank=True)
     projectDetail = models.TextField(blank=True)
@@ -52,6 +67,10 @@ class Applicant(models.Model):
     projectOption = models.CharField(max_length=255, blank=True)
     competitionOption = models.CharField(max_length=255, blank=True)
     selectedRating = models.CharField(max_length=10, blank=True)
+
+    isAccepted = models.BooleanField(default=False)
+
+    
 
     def __str__(self):
         return self.firstName + " " + self.lastName if self.lastName else self.firstName

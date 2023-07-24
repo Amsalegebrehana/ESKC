@@ -22,31 +22,41 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class ApplicantSerializer(serializers.ModelSerializer):
-    skills = SkillSerializer(many=True, required=False)
-    languages = LanguageSerializer(many=True,required=False)
-    orgs = OrganizationSerializer(many=True,required=False)
+    skills = serializers.ListField( child=serializers.CharField(), required=False, write_only=True)
+    languages = serializers.ListField(child=serializers.CharField(), required=False, write_only=True)
+    orgs = serializers.ListField(child=serializers.CharField(), required=False, write_only=True)
+
+
 
     class Meta:
         model = Applicant
         fields = '__all__'
+        # exclude = ('skills', 'languages', 'orgs')
+        
+
 
     def create(self, validated_data):
-        skills_data = validated_data.get('skills', [])
-        languages_data = validated_data.get('languages', [])
-        orgs_data = validated_data.get('orgs',[])
+        skills = validated_data.pop('skills',[])
+        languages = validated_data.pop('languages',[])
+        orgs = validated_data.pop('orgs',[])
 
         applicant = Applicant.objects.create(**validated_data)
 
-        for skill_data in skills_data:
-            skill, _ = Skill.objects.get_or_create(**skill_data)
+        for skill_data in skills:
+            skill, _ = Skill.objects.get_or_create(name=skill_data)
             applicant.skills.add(skill)
 
-        for language_data in languages_data:
-            language, _ = Language.objects.get_or_create(**language_data)
+        for language_data in languages:
+            language, _ = Language.objects.get_or_create(name=language_data)
             applicant.languages.add(language)
 
-        for org_data in orgs_data:
-            org, _ = Organization.objects.get_or_create(**org_data)
+        for org_data in orgs:
+            org, _ = Organization.objects.get_or_create(name=org_data)
             applicant.orgs.add(org)
 
         return applicant
+    
+    def to_representation(self, instance):
+            representation = super().to_representation(instance)
+            representation['skills'] = instance.skills.values_list('name', flat=True)
+            return representation
