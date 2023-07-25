@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['eskcadmin.onrender.com',  '127.0.0.1']
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://www.eskc.org.et/'
 ]
 
 # Application definition
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
+    'donations',
     'corsheaders',
 ]
 
@@ -79,7 +81,6 @@ WSGI_APPLICATION = 'ESKC.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-print(os.environ.get('DB_HOST'))
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
