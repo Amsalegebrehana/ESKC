@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+
 import os
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "env('SECRET_KEY')"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -83,12 +86,12 @@ WSGI_APPLICATION = 'ESKC.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'eskcdb',
-       'USER': 'eskcdb_user',
-       'PASSWORD': '4j424nVObOroumxiIuWXKI87wi6AhsOt',
-       'HOST': "dpg-cin0e9h5rnur6sbaeaqg-a.frankfurt-postgres.render.com",
-       'PORT': 5432,
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': os.environ.get('DB_NAME'),
+       'USER': os.environ.get('DB_USER'),
+       'PASSWORD': os.environ.get('DB_PASS'),
+       'HOST': os.environ.get('DB_HOST'),
+       'PORT': int(os.environ.get('DB_PORT')),
    }
 }
 
